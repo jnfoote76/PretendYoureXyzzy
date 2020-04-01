@@ -42,7 +42,12 @@ public class HibernateUtil {
 
   private HibernateUtil() {
     final Configuration config = new Configuration().configure();
+
+    final String dbHost = System.getenv("POSTGRES_HOST");
+    config.setProperty("hibernate.connection.url", "jdbc:postgresql://" + dbHost + ":5432/cah");
+
     config.setProperty("hibernate.connection.password", System.getenv("POSTGRES_PASSWORD"));
+
     sessionFactory = config.buildSessionFactory();
   }
 }
