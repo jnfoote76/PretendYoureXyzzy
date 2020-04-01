@@ -41,6 +41,8 @@ public class HibernateUtil {
   public final SessionFactory sessionFactory;
 
   private HibernateUtil() {
-    sessionFactory = new Configuration().configure().buildSessionFactory();
+    final Configuration config = new Configuration().configure();
+    config.setProperty("hibernate.connection.password", System.getenv("POSTGRES_PASSWORD"));
+    sessionFactory = config.buildSessionFactory();
   }
 }

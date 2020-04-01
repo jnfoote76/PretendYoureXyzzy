@@ -1,0 +1,5 @@
+**/build
+**/target
+**/ssl/
+app/src/main/java/net/socialgamer/cah/util/RealShadowBannedStringProvider.java
+app/WebContent/js/cah.constants.js

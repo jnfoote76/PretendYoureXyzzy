@@ -880,7 +880,8 @@ public class Game {
     }
 
     // Perhaps figure out a better way to do this...
-    final int playTimer = calculateTime(PLAY_TIMEOUT_BASE + (PLAY_TIMEOUT_PER_CARD * blackCard.getPick()));
+    final int playTimer = calculateTime(
+        PLAY_TIMEOUT_BASE + (PLAY_TIMEOUT_PER_CARD * blackCard.getPick()));
 
     final HashMap<ReturnableData, Object> data = getEventMap();
     data.put(LongPollResponse.EVENT, LongPollEvent.GAME_STATE_CHANGE.toString());
@@ -896,6 +897,7 @@ public class Game {
 
     synchronized (roundTimerLock) {
       final SafeTimerTask task = new SafeTimerTask() {
+
         @Override
         public void process() {
           warnPlayersToPlay();
@@ -1108,8 +1110,10 @@ public class Game {
 
     notifyPlayerInfoChange(getJudge());
 
+
     synchronized (roundTimerLock) {
       final SafeTimerTask task = new SafeTimerTask() {
+
         @Override
         public void process() {
           warnJudgeToJudge();
