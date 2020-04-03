@@ -11,4 +11,4 @@ COPY tomcat/index.jsp /usr/local/tomcat/webapps/ROOT/
 COPY --from=build /src/target/ZY.war /usr/local/tomcat/webapps/ZY.war
 COPY entrypoint.sh /entrypoint.sh
 
-CMD ["/bin/sh"]
+ENTRYPOINT ["/entrypoint.sh"]
