@@ -43,11 +43,11 @@ public class HibernateUtil {
   private HibernateUtil() {
     final Configuration config = new Configuration().configure();
 
-    final String dbHost = System.getenv("POSTGRES_HOST");
-    config.setProperty("hibernate.connection.url", "jdbc:postgresql://" + dbHost + ":5432/cah");
+    final String connectionString = System.getenv("DB_URL");
+    config.setProperty("hibernate.connection.url", "jdbc:" + connectionString);
 
-    config.setProperty("hibernate.connection.username", System.getenv("POSTGRES_USERNAME"));
-    config.setProperty("hibernate.connection.password", System.getenv("POSTGRES_PASSWORD"));
+    config.setProperty("hibernate.connection.username", System.getenv("DB_USERNAME"));
+    config.setProperty("hibernate.connection.password", System.getenv("DB_PASSWORD"));
 
     sessionFactory = config.buildSessionFactory();
   }
