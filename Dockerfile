@@ -9,6 +9,7 @@ COPY tomcat/tomcat-users.xml /usr/local/tomcat/conf/
 RUN mkdir /usr/local/tomcat/webapps/ROOT
 COPY tomcat/index.jsp /usr/local/tomcat/webapps/ROOT/
 COPY --from=build /src/target/ZY.war /usr/local/tomcat/webapps/ZY.war
+COPY app/pyx.sqlite /pyx.sqlite
 COPY entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
