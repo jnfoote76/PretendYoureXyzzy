@@ -1,0 +1,130 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "subscriptionId": {
+            "type": "String"
+        },
+        "name": {
+            "type": "String"
+        },
+        "location": {
+            "type": "String",
+        },
+        "hostingPlanName": {
+            "type": "String"
+        },
+        "serverFarmResourceGroup": {
+            "type": "String"
+        },
+        "alwaysOn": {
+            "type": "Bool",
+            "defaultValue": true
+        },
+        "sku": {
+            "type": "String"
+        },
+        "skuCode": {
+            "type": "String"
+        },
+        "workerSize": {
+            "type": "String",
+            "defaultValue": "3"
+        },
+        "workerSizeId": {
+            "type": "String",
+            "defaultValue": "3"
+        },
+        "numberOfWorkers": {
+            "type": "String",
+            "defaultValue": "1"
+        },
+        "appPasswordRaw": {
+            "type": "securestring"
+        },
+        "appPasswordEscaped": {
+            "type": "securestring"
+        },
+        "dbUrl": {
+            "type": "String",
+        },
+        "dbUsername": {
+            "type": "String",
+        },
+        "dbPassword": {
+            "type": "securestring"
+        },
+        "linuxFxVersion": {
+            "type": "String"
+        },
+        "logsSettingsName": {
+            "type": "String",
+            "defaultValue": "appLogsSettings"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2018-11-01",
+            "name": "[parameters('name')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]"
+            ],
+            "properties": {
+                "name": "[parameters('name')]",
+                "siteConfig": {
+                    "appSettings": [
+                        {
+                            "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+                            "value": "false"
+                        },
+                        {
+                            "name": "APP_GUEST_PASSWORD",
+                            "value": "[parameters('appPasswordEscaped')]"
+                        },
+                        {
+                            "name": "APP_GUEST_PASSWORD_RAW",
+                            "value": "[parameters('appPasswordRaw')]"
+                        },
+                        {
+                            "name": "DB_URL",
+                            "value": "[parameters('dbUrl')]"
+                        },
+                        {
+                            "name": "DB_USERNAME",
+                            "value": "[parameters('dbUsername')]"
+                        },
+                        {
+                            "name": "DB_PASSWORD",
+                            "value": "[parameters('dbPassword')]"
+                        }
+                    ],
+                    "linuxFxVersion": "[parameters('linuxFxVersion')]",
+                    "alwaysOn": "[parameters('alwaysOn')]"
+                },
+                "serverFarmId": "[concat('/subscriptions/', parameters('subscriptionId'),'/resourcegroups/', parameters('serverFarmResourceGroup'), '/providers/Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]",
+                "clientAffinityEnabled": false
+            }
+        },
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2018-11-01",
+            "name": "[parameters('hostingPlanName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [],
+            "sku": {
+                "Tier": "[parameters('sku')]",
+                "Name": "[parameters('skuCode')]"
+            },
+            "kind": "linux",
+            "properties": {
+                "name": "[parameters('hostingPlanName')]",
+                "workerSize": "[parameters('workerSize')]",
+                "workerSizeId": "[parameters('workerSizeId')]",
+                "numberOfWorkers": "[parameters('numberOfWorkers')]",
+                "reserved": true
+            }
+        }
+    ]
+}
