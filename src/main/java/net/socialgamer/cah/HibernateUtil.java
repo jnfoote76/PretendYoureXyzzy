@@ -41,6 +41,14 @@ public class HibernateUtil {
   public final SessionFactory sessionFactory;
 
   private HibernateUtil() {
-    sessionFactory = new Configuration().configure().buildSessionFactory();
+    final Configuration config = new Configuration().configure();
+
+    final String connectionString = System.getenv("DB_URL");
+    config.setProperty("hibernate.connection.url", "jdbc:" + connectionString);
+
+    config.setProperty("hibernate.connection.username", System.getenv("DB_USERNAME"));
+    config.setProperty("hibernate.connection.password", System.getenv("DB_PASSWORD"));
+
+    sessionFactory = config.buildSessionFactory();
   }
 }
