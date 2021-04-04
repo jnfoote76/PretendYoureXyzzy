@@ -19,18 +19,7 @@ function Get-CharsInRange([char] $start, [char] $end) {
 
 function Get-EscapedXMLString([string] $str) {
 	$updatedStr = $str -replace '&', '&amb;'
-
-	$escapeMap = @{
-		'<' = "&lt;";
-		'>' = "&gt;";
-		'"' = "&quot;";
-		"'" = "&apos;";
-	}
-
-	foreach ($key in $escapeMap.Keys) {
-		$val = $escapeMap[$key]
-		$updatedStr = $updatedStr -replace "$key", "$val"
-	}
+	$updatedStr = $str -replace '<', '&lt;'
 
 	return $updatedStr
 }
